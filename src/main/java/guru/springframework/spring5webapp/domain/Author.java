@@ -1,7 +1,10 @@
 package guru.springframework.spring5webapp.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,16 +17,15 @@ public class Author {
     private String lastName;
 
     @ManyToMany(mappedBy = "authors")
-    private Set<Book> books;
+    @Cascade(value = CascadeType.ALL)
+    private Set<Book> books = new HashSet<>();
 
     public Author() {
     }
 
-    public Author(Long id, String firstName, String lastName, Set<Book> books) {
-        this.id = id;
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.books = books;
     }
 
     public Long getId() {
